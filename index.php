@@ -1,7 +1,7 @@
 <?php 
 session_start();
 include 'helper.php';
-include 'panel.php';
+require 'panel.php';
 //ici les 2 qui sont en bas la c'est pour tester voir si le code recupere bien les les donnees de user
 #var_dump($_SESSION['user']);
 #die();
@@ -75,7 +75,7 @@ include 'panel.php';
 </head>
 
 <body>
-    <!-- /#left-panel -->
+   
     <!-- Right Panel -->
     <div id="right-panel" class="right-panel">
         <!-- Content -->
@@ -572,6 +572,5 @@ include 'panel.php';
     </div>
     <!-- /#right-panel -->
 
-  
 </body>
 </html>

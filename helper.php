@@ -14,4 +14,9 @@ function redirectToHome() {
     exit();
 }
 
+function redirectTolist() {
+    header("Location: listeprof.php");
+    exit();
+}
+
 ?>

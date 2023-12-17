@@ -2,7 +2,7 @@
 session_start();
 include 'connes.php';
 include 'helper.php';
-$_SESSION ["id_user"] = null;
+
 
 // Vérifie si l'utilisateur est déjà connecté
 if (isset($_SESSION['is_connected']) && $_SESSION['is_connected']) {
@@ -58,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error = "Veuillez remplir tous les champs du formulaire.";
     }
 }
+
 ?>
 
 
