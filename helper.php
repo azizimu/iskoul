@@ -18,5 +18,10 @@ function redirectTolist() {
     header("Location: listeprof.php");
     exit();
 }
+// Fonction pour ajouter une erreur
+function addError(&$error, $message)
+{
+    $error .= $message . '<br>';
+}
 
 ?>
