@@ -18,6 +18,11 @@ function redirectTolist() {
     header("Location: listeprof.php");
     exit();
 }
+
+function redirectTolistel() {
+    header("Location: listeleve.php");
+    exit();
+}
 // Fonction pour ajouter une erreur
 function addError(&$error, $message)
 {

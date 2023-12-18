@@ -89,6 +89,7 @@
                         <ul class="sub-menu children dropdown-menu">                           
                          <li><i class="fa fa-sitemap"></i>
                          <a href="Eleves.php">Ajouter un Eleves</a></li>
+                         <li><i class="fa  fa-male"></i><a href="listeleve.php">liste des eleves</a></li>
                         </ul>   
                     </li>
                     <li class="menu-item-has-children dropdown">

@@ -95,7 +95,7 @@ try {
 
             // Exécution de la requête
             if ($stmt->execute()) {
-                addError($error,"Erreur lors de l'ajout de l'élève.");
+                addError($error,"l'élève a bien ete ajouter.");
             } else {
                 addError($error,"Erreur lors de l'ajout du professeur.");
             }
@@ -123,7 +123,7 @@ try {
 
   <p class="error-message"><?php echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">' . $error . '</div>' ?></p>
 
- <form class="needs-validation" novalidate action="" method = "POST" style = "box-sizing: border-box;">
+ <form class="needs-validation" action="" method = "POST" style = "box-sizing: border-box;">
   <div class="form-row" style="  margin-left: 5px; margin-right: 5px;     margin-bottom: -30; ">
 
     <div class="col-md-4 mb-3">
