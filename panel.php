@@ -1,8 +1,9 @@
+<?php
+  
+
+?>
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
+<html class="no-js" lang=""> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -96,7 +97,8 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Classes</a>
                         <ul class="sub-menu children dropdown-menu">                           
                          <li><i class="fa fa-puzzle-piece"></i>
-                         <a href="Professeurs.php">Ajouter une classe</a></li>
+                         <a href="classes.php">Ajouter une classe</a></li>
+                            <li><i class="fa  fa-male"></i><a href="listclass.php">liste des classes</a></li>
                         </ul>
                     </li>
                       <li class="menu-item-has-children dropdown">

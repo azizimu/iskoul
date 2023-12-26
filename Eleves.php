@@ -32,11 +32,11 @@ $lib_class = $_POST['lib_class'];
    $pdo = new PDO("mysql:host=localhost;dbname=iskoul", "root", "");
 
 
-// Vérification si la classe existe déjà ou insertion si elle n'existe pas
+/*// Vérification si la classe existe déjà ou insertion si elle n'existe pas
 $stmt = $pdo->prepare("INSERT IGNORE INTO classes (lib_class) VALUES (:lib_class)");
 $stmt->bindParam(':lib_class', $lib_class);
 $stmt->execute();
-
+*/
 // Récupérer l'id de la classe en fonction du libellé
 $sql = "SELECT id_class FROM classes WHERE lib_class = :lib_class";
 $stmt = $pdo->prepare($sql);

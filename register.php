@@ -108,23 +108,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </a>
                 </div>
                 <div class="login-form" >
+                     <form action="" method="POST">
                     <p class="error-message"><?php echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">' . $error . '</div>' ?></p>
-                    <form action="" method="POST">
                         <div class="form-group">
                             <label>User Name</label>
-                            <input type="text"  name="user_name" placeholder="User Name" value="<?php echo $user_name; ?>">
+                            <input type="text"  name="user_name" placeholder="User Name" style=" margin-left: 30px;width: 310px;" value="<?php echo $user_name; ?>">
                         </div>
                          <div class="form-group">
                             <label>User surname</label>
-                            <input type="text"  name="user_surname" placeholder="User Name" value="<?php echo $user_surname; ?>">
+                            <input type="text"  name="user_surname" placeholder="User Name" style=" width: 310px;" value="<?php echo $user_surname; ?>">
                         </div>
                         <div class="form-group">
                             <label>Email address</label>
-                            <input type="email"  name="user_email" placeholder="Email" value="<?php echo $user_email; ?>">
+                            <input type="email"  name="user_email" placeholder="Email" style=" width: 310px;" value="<?php echo $user_email; ?>">
                         </div>
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" name="password"placeholder="Password">
+                            <input type="password" name="password"placeholder="Password" style=" margin-left: 30px; height: 30px;border-right-width: 2px;width: 308px;">
                         </div>
                         <div class="checkbox">
                             <label>

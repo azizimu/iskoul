@@ -37,6 +37,10 @@ $prof_email = $_POST['prof_email'];
    $stmt->bindParam(':prof_phone', $prof_phone);
    $stmt->execute();
    $phoneExists = $stmt->fetchColumn();
+   
+       if ($phoneExists > 0) {
+       addError($error," Le numéro de téléphone existe déjà.");
+    }
 
     // Vérifier l'unicité de l'email
    $stmt = $database->prepare("SELECT COUNT(*) FROM professors WHERE prof_email = :prof_email");
@@ -45,15 +49,13 @@ $prof_email = $_POST['prof_email'];
    $emailExists = $stmt->fetchColumn();
 
     // Vérifier si le numéro de téléphone et l'email sont uniques
-    if ($phoneExists > 0) {
-        $error .= "Erreur : Le numéro de téléphone existe déjà.";
-    }
 
     if ($emailExists > 0) {
-        $error .= "Erreur : L'email existe déjà.";
+       addError($error, " L'email existe déjà.");
     }
 
 
+try{
 
 // Requête d'insertion
 $sql = "INSERT INTO professors (prof_name, prof_surname, prof_brthd, prof_sexe, prof_matiere, prof_grade, prof_phone, prof_email)
@@ -74,12 +76,17 @@ $stmt->bindParam(':prof_email', $prof_email);
 
 // Exécution de la requête
 if ($stmt->execute()) {
-     $error= "Le professeur a été ajouté avec succès.";
+     addError($error, "Le professeur a été ajouté avec succès.");
 } else {
-    $error = "Erreur lors de l'ajout du professeur.";
-}
- }else{ $error = "veuillez remplir tout les champs";
-}
+                addError($error," lors de l'ajout du professeur.");
+            }
+        } catch (PDOException $e) {
+            // Gérer l'exception ici, par exemple, en ne faisant rien ou en enregistrant les erreurs dans un fichier de journal
+        }
+    } else {
+        addError($error,"Veuillez remplir tous les champs.");
+    }
+
 // Fermeture de la connexion
 $pdo = null;
 }

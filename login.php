@@ -87,8 +87,8 @@ if (isset($_POST['login'])) {
                     </a>
                 </div>
                 <div class="login-form">
-                     cc
                     <form action="" method="POST">
+                         <p class="error-message"><?php echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">' . $error . '</div>' ?></p>
                         <div class="form-group">
                             <label>Email address</label>
                             <input type="email" class="form-control" name="user_email" placeholder="Email"value="<?php echo $user_email ?>">

@@ -12,31 +12,30 @@ $bd->exec("USE $bd_name");
 
 // Vérifier si l'id est présent dans l'URL
 if(isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $professorId = $_GET['id'];
+    $classId = $_GET['id'];
 
     // Vérifier si le formulaire de confirmation a été soumis
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // L'utilisateur a confirmé la suppression
-        $query = "DELETE FROM professors WHERE num_prof = :id";
+        $query = "DELETE FROM classes WHERE id_class = :id";
         $statement = $bd->prepare($query);
-        $statement->bindParam(":id", $professorId, PDO::PARAM_INT);
+        $statement->bindParam(":id", $classId, PDO::PARAM_INT);
 
         if ($statement->execute()) {
-            $error = "Professeur supprimé avec succès.";
+            $error = "classe supprimé avec succès.";
             // Rediriger vers la page principale ou une autre page après la suppression
           //  redirectTolist();
             exit();
         } else {
-            $error= "Erreur lors de la suppression du professeur.";
+            $error= "Erreur lors de la suppression de la classe.";
         }
     }
 } else {
-    $error= "ID du professeur non spécifié.";
+    $error= "ID de classe non specifie.";
     exit();
 }
 ?>
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- Balises head ... -->
@@ -67,7 +66,7 @@ if(isset($_GET['id']) && is_numeric($_GET['id'])) {
             <form method="post">
                   <p class="error-message"><?php  '<div class="alert alert-warning alert-dismissible fade show" role="alert">' . $error . '</div>' ?></p>
                 <input type="submit" name="confirm" class="confirm-btn" value="Confirmer">
-                <a href="listeprof.php" class="cancel-btn">Annuler</a>
+                <a href="listclass.php" class="cancel-btn">Annuler</a>
             </form>
         </div>
     </div>

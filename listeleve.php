@@ -52,7 +52,7 @@ $pdo = null;
                        echo "<td>" . $row['stud_sexe'] . "</td>";
                        echo "<td>" . $row['lib_class'] . "</td>";
                        echo "<td>
-                       <a href='edit.php?id=" . $row['matricule'] . "' class='link-dark' style='color: #007bff;'><i class='fa-solid fa-pen-to-square fs-5 me-3 style='background-color: blue'></i> edit </a>
+                       <a href='editelve.php?id=" . $row['matricule'] . "' class='link-dark' style='color: #007bff;'><i class='fa-solid fa-pen-to-square fs-5 me-3 style='background-color: blue'></i> edit </a>
                        <a href='deleteeleve.php?id=" . $row['matricule'] . "' class='link-dark' style='color: #dc3545;'><i class='fa-solid fa-trash fs-5'>delete</i></a>
                        </td>";
                     echo "</tr>";
