@@ -12,27 +12,21 @@ $bd->exec("USE $bd_name");
 
 // Vérifier si l'id est présent dans l'URL
 if(isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $studentsId = $_GET['id'];
+    $studentId = $_GET['id'];
 
-    // Vérifier si le formulaire de confirmation a été soumis
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // L'utilisateur a confirmé la suppression
-        $query = "DELETE FROM students WHERE matricule = :id";
-        $statement = $bd->prepare($query);
-        $statement->bindParam(":id", $studentsId, PDO::PARAM_INT);
-
-        if ($statement->execute()) {
-            $error = "Eleve supprimé avec succès.";
-            // Rediriger vers la page principale ou une autre page après la suppression
-            redirectTolistel();
-            exit();
-        } else {
-            $error= "Erreur lors de la suppression de l'eleve.";
-        }
+    // L'utilisateur a confirmé la suppression
+    $query = "DELETE FROM students WHERE matricule = :id";
+    $statement = $bd->prepare($query);
+    $statement->bindParam(":id", $studentId, PDO::PARAM_INT);
+    if ($statement->execute()) {
+        $error = "Eleve supprimé avec succès.";
+        // Rediriger vers la page principale ou une autre page après la suppression
+      //  redirectTolist();
+    } else {
+        $error= "Erreur lors de la suppression de l'eleve.";
     }
 } else {
     $error= "ID de l'eleve non spécifié.";
-    exit();
 }
 ?>
 
@@ -40,35 +34,13 @@ if(isset($_GET['id']) && is_numeric($_GET['id'])) {
 <html lang="en">
 <head>
     <!-- Balises head ... -->
-    <style>
-        .confirm-btn {
-            background-color: #007bff;
-            color: #fff;
-            padding: 8px 12px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .cancel-btnn {
-            background-color: #dc3545;
-            color: #fff;
-            padding: 8px 12px;
-            border: none;
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body>
     <div id="right-panel" class="right-panel">
-        <div class="card-body--"  style = "padding-left: 8px">
-            
-            <h2>Confirmation de suppression</h2>
-            <p>Voulez-vous vraiment supprimer ce eleve?</p>
-            <form method="post">
-                  <p class="error-message"><?php  '<div class="alert alert-warning alert-dismissible fade show" role="alert">' . $error . '</div>' ?></p>
-                <input type="submit" name="confirm" class="confirm-btn" value="Confirmer">
-                <a href="listeleve.php" class="cancel-btnn">Annuler</a>
-            </form>
+        <div class="card-body--"  style="padding-left: 8px">
+            <h2>Suppression de l'eleve</h2>
+            <p><?php echo $error; ?></p>
+            <a href="listeleve.php" class="btn btn-blue mb-3" style= background-color:#88F  >Retour à la liste</a>
         </div>
     </div>
 </body>

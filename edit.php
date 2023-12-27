@@ -136,14 +136,19 @@ $pdo = null;
         <input type="date" class="form-control" name="prof_brthd" value="<?php echo $professor['prof_brthd']; ?>">
     </div>
 
-    <div class="col-md-4 mb-3">
-        <label for="validationTooltip07">Sexe</label>
-        <input type="text" class="form-control" name="prof_sexe" placeholder="Sexe" value="<?php echo $professor['prof_sexe']; ?>">
-    </div>
+ <div class="col-md-4 mb-3">
+    <label for="prof_sexe">sexe :</label><br>
+    <select name="prof_sexe" style="width: 330px; height: 35px;" placeholder="sexe"> 
+        <option value="Masculin" <?php echo ($professor['prof_sexe'] == 'Masculin') ? 'selected' : ''; ?>>Masculin</option>
+        <option value="Féminin" <?php echo ($professor['prof_sexe'] == 'Féminin') ? 'selected' : ''; ?>>Féminin</option>
+        <option value="Bisexuel" <?php echo ($professor['prof_sexe'] == 'Bisexuel') ? 'selected' : ''; ?>>Bisexuel</option>
+    </select>
+</div>
 
     <!-- Ajoutez d'autres champs de formulaire avec les valeurs actuelles -->
 
    <button class="btn btn-primary" type="submit" name="update">Update information</button>
+    <a href="listeprof.php" class="btn btn-primary" style=" margin-left : 20px; margin-right: -10px; margin-bottom: -30 ;    text-align: center;"> list profs</a>
 </div>
  </form>
 </div>

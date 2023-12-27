@@ -143,11 +143,14 @@ $pdo = null;
       <label for="validationTooltipUsername">birthday</label>
       <input type="date" class="form-control" name = "prof_brthd" >
   </div>
-
-   <div class="col-md-4 mb-3">
-      <label for="validationTooltipUsername">sexe</label>
-      <input type="text" class="form-control" name = "prof_sexe" placeholder= "sexe" >
-  </div>
+  <div class="col-md-4 mb-3">
+            <label for="prof_sexe">sexe :</label><br>
+            <select name="prof_sexe" style="width: 330px; height: 35px;"placeholder="sexe"> 
+            <option value="Masculin" <?php echo ($prof_sexe == 'Masculin') ? 'selected' : ''; ?>>Masculin</option>
+            <option value="Féminin" <?php echo ($prof_sexe == 'Féminin') ? 'selected' : ''; ?>>Féminin</option>
+            <option value="Bisexuel" <?php echo ($prof_sexe == 'Bisexuel') ? 'selected' : ''; ?>>Bisexuel</option>
+            </select>
+   </div>        
 
   <button class="btn btn-primary" type="subnit" name = "subnit">Submit form</button>
   </div>

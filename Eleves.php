@@ -151,16 +151,33 @@ try {
       <input type="date" class="form-control" name = "stud_brthd" >
   </div>
 
-   <div class="col-md-4 mb-3">
-      <label for="validationTooltipUsername">sexe</label>
-      <input type="text" class="form-control" name = "stud_sexe" placeholder= "sexe" >
-  </div>
+
+
+      <div class="col-md-4 mb-3">
+            <label for="stud_sexe">sexe :</label><br>
+            <select name="stud_sexe" style="width: 330px; height: 35px;"placeholder="sexe"> 
+            <option value="Masculin" <?php echo ($stud_sexe == 'Masculin') ? 'selected' : ''; ?>>Masculin</option>
+            <option value="Féminin" <?php echo ($stud_sexe == 'Féminin') ? 'selected' : ''; ?>>Féminin</option>
+            <option value="Bisexuel" <?php echo ($stud_sexe == 'Bisexuel') ? 'selected' : ''; ?>>Bisexuel</option>
+            </select>
+   </div>        
 
     <div class="col-md-4 mb-3">
-    <label for="validationTooltipUsername">sexe</label>
-    <input type="text" class="form-control" name="lib_class" placeholder= "lib_class" ><br>
-    </div>
+            <label for="num_prof">classe :</label><br>
+            <select name="num_prof" style="width: 330px; height: 35px;">
+                <?php
+                $pdo = new PDO("mysql:host=localhost;dbname=iskoul", "root", "");
+                // Récupérer la liste des enseignants
+                $stmt = $pdo->query("SELECT * FROM classes");
+                $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+                // Afficher les options du menu déroulant
+                foreach ($classes as $classes) {
+                    echo "<option value='" . $classes['id_class'] . "'>" . $classes['lib_class'] . "</option>";
+                }
+                ?>
+            </select>
+        </div>
   <button class="btn btn-primary" type="submit" name = "subnit">Submit form</button>
   </div>
 </form>

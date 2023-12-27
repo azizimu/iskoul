@@ -105,7 +105,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Matieres</a>
                         <ul class="sub-menu children dropdown-menu">                           
                          <li><i class="fa fa-puzzle-piece"></i>
-                         <a href="Professeurs.php">Ajouter une matiere</a></li>
+                         <a href="matiere.php">Ajouter une matiere</a></li>
                         </ul>   
                     </li>
 

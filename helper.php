@@ -15,13 +15,13 @@ function redirectToHome() {
 }
 
 function redirectTolist() {
-    header("Location: listeprof.php");
-    exit();
+    header("Location: listeel.php");
+    
 }
 
 function redirectTolistel() {
     header("Location: listeleve.php");
-    exit();
+   
 }
 // Fonction pour ajouter une erreur
 function addError(&$error, $message)

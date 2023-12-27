@@ -46,7 +46,7 @@ $pdo = null;
                     <td><?php echo $class['an_scolair']; ?></td>
                     <td><?php echo $class['prof_name']; ?></td>
                     <td>
-                <a href='deleteclass.php?id_class=<?php echo $class['id_class']; ?>' class='link-dark' style='color: #dc3545;'>
+                <a href='deleteclass.php?id=<?php echo $class['id_class']; ?>' class='link-dark' style='color: #dc3545;'>
                 <i class='fa-solid fa-trash fs-5'></i> Delete
                 </a>
              </td>

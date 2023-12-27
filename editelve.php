@@ -83,8 +83,7 @@ if (isset($_POST['update'])) {
 
     if ($update_stmt->execute()) {
         addError($error, "Les informations de l'élève ont été mises à jour avec succès.");
-        echo "<script> window.Location.href=' listeleve.php';</script>";  // Rediriger vers la liste des élèves
-        exit();
+      // redirectTolistel();
     } else {
         addError($error, "Erreur lors de la mise à jour des informations de l'élève.");
     }
@@ -136,12 +135,14 @@ $pdo = null;
         <label for="validationTooltip06">Birthday</label>
         <input type="date" class="form-control" name="new_brthd" value="<?php echo $student['stud_brthd']; ?>">
     </div>
-
-    <div class="col-md-4 mb-3">
-        <label for="validationTooltip07">Sexe</label>
-        <input type="text" class="form-control" name="new_sexe" placeholder="Sexe" value="<?php echo $student['stud_sexe']; ?>">
-    </div>
-
+<div class="col-md-4 mb-3">
+    <label for="stud_sexe">Sexe :</label><br>
+    <select name="new_sexe" style="width: 330px; height: 35px;">
+        <option value="Masculin" <?php echo ($student['stud_sexe'] == 'Masculin') ? 'selected' : ''; ?>>Masculin</option>
+        <option value="Féminin" <?php echo ($student['stud_sexe'] == 'Féminin') ? 'selected' : ''; ?>>Féminin</option>
+        <option value="Bisexuel" <?php echo ($student['stud_sexe'] == 'Bisexuel') ? 'selected' : ''; ?>>Bisexuel</option>
+    </select>
+</div>
     <div class="col-md-4 mb-3">
          <label for="validationTooltip08">Nouvelle classe :</label>
          <input type="text" name="new_lib_class" value="<?php echo $student['lib_class']; ?>">
@@ -150,7 +151,8 @@ $pdo = null;
 
     <!-- Ajoutez d'autres champs de formulaire avec les valeurs actuelles -->
 
-   <button class="btn btn-primary" type="submit" name="update">Update information</button>
+    <button class="btn btn-primary" type="submit" name="update">Update information</button>
+    <a href="listeleve.php" class="btn btn-primary" style=" margin-left : 20px; margin-right: -10px; margin-bottom: -30 ;    text-align: center;"> list eleves</a>
 </div>
  </form>
 </div>
