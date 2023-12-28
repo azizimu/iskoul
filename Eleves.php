@@ -2,184 +2,131 @@
 session_start();
 include 'connes.php';
 include 'helper.php';
-include  'panel.php';
+include 'panel.php';
 
-//initialisation des variables
-$error = null;
-$sucess = null;
-$student_name = null;
-$student_surname = null;
-$stud_brthd = null;
-$stud_sexe = null;
-$id_classe = null;
-$student_phone = null;
-$student_email = null;
-$lib_class = null;
+$error = '';
+$errorMessage = ''; // Nouvelle variable pour stocker les messages d'erreur
 
+// Traitement du formulaire d'inscription
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Récupération des données du formulaire
+    $student_name = $_POST['student_name'];
+    $student_surname = $_POST['student_surname'];
+    $stud_sexe = $_POST['stud_sexe'];
+    $stud_brthd = $_POST['stud_brthd'];
+    $student_email = $_POST['student_email'];
+    $student_phone = $_POST['student_phone'];
+    $classe = $_POST['classe'];
 
-// Récupération des données du formulaire
-if (isset($_POST['subnit'])) {
-$student_name = $_POST['student_name'];
-$student_surname = $_POST['student_surname'];
-$stud_brthd = $_POST['stud_brthd'];
-$stud_sexe = $_POST['stud_sexe'];
-$student_phone = $_POST['student_phone'];
-$student_email = $_POST['student_email'];
-$lib_class = $_POST['lib_class'];
-
-
-//connexion a la base de donnee
-   $pdo = new PDO("mysql:host=localhost;dbname=iskoul", "root", "");
-
-
-/*// Vérification si la classe existe déjà ou insertion si elle n'existe pas
-$stmt = $pdo->prepare("INSERT IGNORE INTO classes (lib_class) VALUES (:lib_class)");
-$stmt->bindParam(':lib_class', $lib_class);
-$stmt->execute();
-*/
-// Récupérer l'id de la classe en fonction du libellé
-$sql = "SELECT id_class FROM classes WHERE lib_class = :lib_class";
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(':lib_class', $lib_class);
-$stmt->execute();
-   $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($result === false) {
-        addError($error, "La classe '$lib_class' n'existe pas dans la base de données.");
+    // Vérification si toutes les entrées sont remplies
+    if (empty($student_name) || empty($student_surname) || empty($stud_sexe) || empty($stud_brthd) || empty($student_email) || empty($student_phone) || empty($classe)) {
+        $errorMessage = 'Veuillez remplir toutes les informations.';
     } else {
-        $id_class = $result['id_class'];
-    }
+        // Connexion à la base de données
+        $database = new PDO("mysql:host=localhost;dbname=iskoul", "root", "");
 
- if (!empty($student_name) && !empty($student_surname) && !empty($stud_brthd) && !empty($stud_sexe) && !empty($student_phone) && !empty($student_email) && !empty($id_class)) {
-    
+        // Vérification de l'unicité de l'email et du téléphone
+        $stmt = $database->prepare('SELECT COUNT(*) FROM students WHERE student_email = :student_email OR student_phone = :student_phone');
+        $stmt->bindParam(':student_email', $student_email);
+        $stmt->bindParam(':student_phone', $student_phone);
+        $stmt->execute();
+        $count = $stmt->fetchColumn();
 
- // Vérifier l'unicité du numéro de téléphone
-   $stmt = $pdo->prepare("SELECT COUNT(*) FROM students WHERE student_phone = :student_phone");
-   $stmt->bindParam(':student_phone', $student_phone);
-   $stmt->execute();
-   $phoneExists = $stmt->fetchColumn();
-
-      if ($phoneExists > 0) {
-       addError($error, "Le numéro de téléphone existe déjà.");
-    }
-
-    // Vérifier l'unicité de l'email
-   $stmt = $pdo->prepare("SELECT COUNT(*) FROM students WHERE student_email = :student_email");
-   $stmt->bindParam(':student_email', $student_email);
-   $stmt->execute();
-   $emailExists = $stmt->fetchColumn();
-
-    // Vérifier si le numéro de téléphone et l'email sont uniques
-    if ($emailExists > 0) {
-        addError($error, "L'email existe déjà.");
-    }
-
-
-
-try {
-            // Requête d'insertion
-            $sql = "INSERT INTO students (student_name, student_surname, stud_brthd, stud_sexe, student_phone, student_email, id_class)
-                    VALUES (:student_name, :student_surname, :stud_brthd, :stud_sexe, :student_phone, :student_email, :id_class)";
-
-            // Préparation de la requête
-            $stmt = $pdo->prepare($sql);
-
-            // Liaison des paramètres
+        if ($count > 0) {
+            $errorMessage = 'L\'email ou le téléphone existe déjà. Veuillez utiliser des informations uniques.';
+        } else {
+            // Insertion des données dans la table des élèves
+            $stmt = $database->prepare('INSERT INTO students (student_name, student_surname, stud_sexe, stud_brthd, student_email, student_phone, id_class) VALUES (:student_name, :student_surname, :stud_sexe, :stud_brthd, :student_email, :student_phone, :classe)');
             $stmt->bindParam(':student_name', $student_name);
             $stmt->bindParam(':student_surname', $student_surname);
-            $stmt->bindParam(':stud_brthd', $stud_brthd);
             $stmt->bindParam(':stud_sexe', $stud_sexe);
-            $stmt->bindParam(':student_phone', $student_phone);
+            $stmt->bindParam(':stud_brthd', $stud_brthd);
             $stmt->bindParam(':student_email', $student_email);
-            $stmt->bindParam(':id_class', $id_class);
+            $stmt->bindParam(':student_phone', $student_phone);
+            $stmt->bindParam(':classe', $classe);
 
-            // Exécution de la requête
-            if ($stmt->execute()) {
-                addError($error,"l'élève a bien ete ajouter.");
-            } else {
-                addError($error,"Erreur lors de l'ajout du professeur.");
+            try {
+                $stmt->execute();
+                $errorMessage = 'Élève enregistré avec succès.';
+            } catch (PDOException $e) {
+                // Gestion des erreurs d'insertion
+                $errorMessage = 'Erreur d\'insertion : ' . $e->getMessage();
             }
-        } catch (PDOException $e) {
-            // Gérer l'exception ici, par exemple, en ne faisant rien ou en enregistrant les erreurs dans un fichier de journal
         }
-    } else {
-        addError($error,"Veuillez remplir tous les champs.");
     }
-
-    // Fermeture de la connexion
-    $pdo = null;
 }
-?>
-<html>
 
-<style>
+$database = new PDO("mysql:host=localhost;dbname=iskoul", "root", "");
+// Récupération des classes depuis la base de données
+$stmtClasses = $database->query('SELECT id_class, lib_class FROM classes');
+$classes = $stmtClasses->fetchAll(PDO::FETCH_ASSOC);
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription des élèves</title>
+</head>
+<body>
+    <style>
         .error-message {
             color: red;
             margin-top: -10px;
         }
-      </style>
+    </style>
   
 <div id="right-panel" class="right-panel">
+    <p class="error-message"><?php echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">' . $errorMessage . '</div>' ?></p>
 
-  <p class="error-message"><?php echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">' . $error . '</div>' ?></p>
-
- <form class="needs-validation" action="" method = "POST" style = "box-sizing: border-box;">
+ <form class="needs-validation" novalidate action="" method = "POST" style = "box-sizing: border-box;">
   <div class="form-row" style="  margin-left: 5px; margin-right: 5px;     margin-bottom: -30; ">
 
-    <div class="col-md-4 mb-3">
-      <label for="validationTooltip01">First name</label>
-      <input type="text" class="form-control" name="student_name" placeholder="First name" value="<?php echo $student_name; ?>">
-    </div>
-
-    <div class="col-md-4 mb-3">
-      <label for="validationTooltip02">Last name</label>
-      <input type="text" class="form-control" id="validationTooltip02" name="student_surname" placeholder="Last name" value="<?php echo $student_surname; ?>">
-    </div>
-
-    <div class="col-md-4 mb-3">
-      <label for="validationTooltipUsername">email</label>
-      <input type="email" class="form-control" name = "student_email" placeholder= "email" value="<?php echo $student_email; ?>" >
-  </div>
-
-    <div class="col-md-4 mb-3">
-      <label for="validationTooltip04">phone</label>
-      <input type="text" class="form-control" name="student_phone" placeholder="+**---" value="<?php echo $student_phone; ?>">
-    </div>
+   <div class="col-md-4 mb-3">
+        <label for="student_name">Nom :</label>
+        <input type="text" class="form-control" name="student_name" value="<?php echo isset($_POST['student_name']) ? $_POST['student_name'] : ''; ?>"><br>
+   </div>    
 
      <div class="col-md-4 mb-3">
-      <label for="validationTooltipUsername">birthday</label>
-      <input type="date" class="form-control" name = "stud_brthd" >
-  </div>
+        <label for="student_surname">Prénom :</label>
+        <input type="text" class="form-control" name="student_surname" value="<?php echo isset($_POST['student_surname']) ? $_POST['student_surname'] : ''; ?>"><br>
+     </div>  
+   
+      <div class="col-md-4 mb-3">
+        <label for="stud_sexe">Sexe :</label>
+        <select name="stud_sexe" class="form-control" required>
+            <option value="masculin">Masculin</option>
+            <option value="feminin">Féminin</option>
+            <option value="homo">Homo</option>
+        </select><br>
+      </div>
+   
+       <div class="col-md-4 mb-3">
+        <label for="student_email">Email :</label>
+        <input type="email" class="form-control" name="student_email" value="<?php echo isset($_POST['student_email']) ? $_POST['student_email'] : ''; ?>"><br>
+       </div>
 
+     <div class="col-md-4 mb-3">
+        <label for="stud_brthd">Date de naissance :</label>
+        <input type="date" class="form-control" name="stud_brthd" value="<?php echo isset($_POST['stud_brthd']) ? $_POST['stud_brthd'] : ''; ?>"><br>
+     </div>  
 
+     <div class="col-md-4 mb-3">
+        <label for="student_phone">Téléphone :</label>
+        <input type="text" class="form-control" name="student_phone" required><br>
+     </div>   
 
       <div class="col-md-4 mb-3">
-            <label for="stud_sexe">sexe :</label><br>
-            <select name="stud_sexe" style="width: 330px; height: 35px;"placeholder="sexe"> 
-            <option value="Masculin" <?php echo ($stud_sexe == 'Masculin') ? 'selected' : ''; ?>>Masculin</option>
-            <option value="Féminin" <?php echo ($stud_sexe == 'Féminin') ? 'selected' : ''; ?>>Féminin</option>
-            <option value="Bisexuel" <?php echo ($stud_sexe == 'Bisexuel') ? 'selected' : ''; ?>>Bisexuel</option>
-            </select>
-   </div>        
-
-    <div class="col-md-4 mb-3">
-            <label for="num_prof">classe :</label><br>
-            <select name="num_prof" style="width: 330px; height: 35px;">
-                <?php
-                $pdo = new PDO("mysql:host=localhost;dbname=iskoul", "root", "");
-                // Récupérer la liste des enseignants
-                $stmt = $pdo->query("SELECT * FROM classes");
-                $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                // Afficher les options du menu déroulant
-                foreach ($classes as $classes) {
-                    echo "<option value='" . $classes['id_class'] . "'>" . $classes['lib_class'] . "</option>";
-                }
-                ?>
-            </select>
-        </div>
-  <button class="btn btn-primary" type="submit" name = "subnit">Submit form</button>
-  </div>
-</form>
-</div>
+        <label for="classe">Classe :</label>
+        <select name="classe" class="form-control"value=" <?php echo $classe; ?>">
+            <?php foreach ($classes as $cl) : ?>
+                <option value="<?php echo $cl['id_class']; ?>"><?php echo $cl['lib_class']; ?></option>
+            <?php endforeach; ?>
+        </select><br>
+      </div> 
+      
+        <input type="submit"  value="Inscrire">
+    </form>
+</body>
 </html>

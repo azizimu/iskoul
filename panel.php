@@ -258,7 +258,15 @@
     <script src="assets/js/init/fullcalendar-init.js"></script>
 
   <script>  
+
+    function valider()
+             {
+                console.log('TEST');
+             }
         jQuery(document).ready(function($) {
+
+              
+
             "use strict";
 
             // Pie chart flotPie1
